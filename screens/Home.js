@@ -1,5 +1,6 @@
-import React from 'react';
-import { View, Text, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
 
 function Home({ navigation }) {
@@ -9,14 +10,19 @@ function Home({ navigation }) {
         { title: 'Not So "Final" Fantasy', rating: 3, body: 'lorem ipsum', key: '3' },
     ]);
 
-    const pressHandler = () => {
-        navigation.navigate('ReviewDetails');
+    const handlePress = (item) => {
+        navigation.navigate('ReviewDetails', item)
     }
-
     return (
         <View style={globalStyles.container}>
-            <Text style={globalStyles.titleText}>Home Screen</Text>
-            <Button title='Go to Review' onPress={pressHandler} />
+            <FlatList
+                data={reviews}
+                renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => handlePress(item)}>
+                        <Text style={globalStyles.titleText}>{item.title}</Text>
+                    </TouchableOpacity>
+                )}
+            />
         </View>
     )
 }
